@@ -1,0 +1,26 @@
+# Local-only settings and approvals
+config.json
+settings.local.json
+
+# Runtime history and session state
+history.jsonl
+stats-cache.json
+backups/
+cache/
+debug/
+downloads/
+file-history/
+ide/
+plans/
+projects/
+session-env/
+sessions/
+shell-snapshots/
+todos/
+
+# Installed marketplace/plugin caches
+plugins/known_marketplaces.json
+plugins/marketplaces/
+
+# OS/editor noise
+.DS_Store
