@@ -39,6 +39,7 @@ Claude Codeのカスタムサブエージェント（`.claude/agents/*.md`）を
 name: <ケバブケースの識別子>
 description: <具体的な用途。自動委任の精度に直結するため最重要>
 tools: <必要最小限のツールをカンマ区切りで指定>
+skills: <プリロードするスキル名のYAMLリスト（任意）>
 model: <haiku | sonnet | opus | inherit>
 permissionMode: <dontAsk | acceptEdits | bypassPermissions>
 ---
@@ -51,6 +52,7 @@ permissionMode: <dontAsk | acceptEdits | bypassPermissions>
 | **name** | ケバブケースで簡潔に。役割が一目でわかる名前 |
 | **description** | 最重要フィールド。具体的なユースケースを記載。必要に応じて「MUST BE USED when...」を含める |
 | **tools** | 最小権限の原則。読み取り専用→`Read, Grep, Glob, Bash`。編集あり→`Read, Edit, Write, Bash, Grep, Glob` |
+| **skills** | 既存スキルをエージェントのコンテキストにプリロードする。スキルの内容がエージェントのシステムプロンプトに注入され、エージェントはそのスキルの手順・方針に従って動作できる。エージェント固有のプロンプトではスキルの基本フローを継承しつつ、特化ルールのみを追記する（重複記述を避ける） |
 | **model** | 探索・定型→`haiku`、実装→`sonnet`、複雑な判断→`opus`、親に合わせる→`inherit` |
 | **permissionMode** | 読み取り専用→`dontAsk`、編集あり→`acceptEdits` |
 
@@ -58,6 +60,18 @@ permissionMode: <dontAsk | acceptEdits | bypassPermissions>
 
 基本: `Read`, `Edit`, `Write`, `Bash`, `Grep`, `Glob`, `Agent`, `WebFetch`, `WebSearch`, `TodoWrite`, `NotebookEdit`
 MCPツール: プロジェクトで利用可能なMCPツールも指定可能
+
+#### スキルのプリロード
+
+`skills` フィールドで既存スキルをエージェントに注入できる。スキルの内容（SKILL.md）がエージェントのコンテキストに展開されるため、エージェントはそのスキルの手順・方針に従って動作する。
+
+```yaml
+skills:
+  - research        # /research スキルをプリロード
+  - claude-api      # /claude-api スキルをプリロード
+```
+
+**設計方針:** スキルが汎用的なフローを提供し、エージェントのプロンプト本体では特化ルールのみを追記する。スキルの内容をエージェント内に重複記述しないこと。
 
 ### Step 3: システムプロンプトの作成
 

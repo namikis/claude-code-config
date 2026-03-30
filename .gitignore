@@ -22,5 +22,12 @@ todos/
 plugins/known_marketplaces.json
 plugins/marketplaces/
 
+# Nested .claude directory (internal state)
+.claude/
+
+# Paste cache and task state
+paste-cache/
+tasks/
+
 # OS/editor noise
 .DS_Store
